@@ -1,0 +1,20 @@
+/*оборачивает весь сайт*/
+.app_wrapper {
+    margin: 0 auto;
+    display: grid;
+    width: 1200px;
+    grid-template-areas: "h h" "n c";
+
+    /*fr фракции, части*/
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 2fr 10fr;
+    grid-gap: 10px;
+}
+
+.app_wrapper_content {
+    grid-area: c;
+    background-color: #97999B;
+}
+
+/*grid-area что-то вроде псевдонима*/
+/*#88B04B - pantone зеленый*/
