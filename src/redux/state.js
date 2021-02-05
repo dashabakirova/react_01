@@ -1,4 +1,6 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree = () => {
+    console.log('State was changed');
+}
 
 let state = {
     profilePage: {
@@ -20,7 +22,8 @@ let state = {
             {id: 2, message: 'How are you?'},
             {id: 3, message: 'Hello'},
             {id: 4, message: 'Yo'}
-        ]
+        ],
+        newMessageText: 'Hi. How are you?'
     },
     navBarPage: {
         friendsAvatar: [
@@ -32,21 +35,44 @@ let state = {
     }
 }
 
+window.state = state;
+
 // функция, которая добавляет новый пост в массив постов
-export let addPost = (postMessage) => {
+export const addPost = () => {
     let newPost = {
-        id: 5,
-        message: postMessage,
+        id: 3,
+        message: state.profilePage.newPostText,
         likesCount: 0
     };
     // push - метод массива, который добавляет в конец массива новый элемент
     state.profilePage.posts.push(newPost);
+    state.profilePage.newPostText = '';
     rerenderEntireTree(state);
 }
 
-export let updateNewPostText = (newText) => {
+export const updateNewPostText = (newText) => {
     state.profilePage.newPostText = newText;
-    rerenderEntireTree();
+    rerenderEntireTree(state);
+}
+
+export const addMessage = () => {
+    let newMessage = {
+        id: 5,
+        message: state.dialogsPage.newMessageText,
+    };
+    // push - метод массива, который добавляет в конец массива новый элемент
+    state.dialogsPage.messages.push(newMessage);
+    state.dialogsPage.newMessageText = '';
+    rerenderEntireTree(state);
+}
+
+export const updateNewMessageText = (newText) => {
+    state.dialogsPage.newMessageText = newText;
+    rerenderEntireTree(state);
+}
+// вызываем функцию, экспортируем. Затем ее вызывает импортер и передет внутрь какую-то функцию
+export const subscribe = (observer) => {
+    rerenderEntireTree = observer; // наблюдатель, паттерн (похож на publisher-subscriber, по этому же принципу button.addEventListener, onChange тоже)
 }
 
 export default state;

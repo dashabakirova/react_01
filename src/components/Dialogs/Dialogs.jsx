@@ -5,16 +5,20 @@ import Message from "./Message/Message";
 
 const Dialogs = (props) => {
 
-    let dialogsElements = props.state.dialogs
+    let dialogsElements = props.dialogsPage.dialogs
         .map(d => <DialogItem name={d.name} id={d.id}/>);
-    let messagesElements = props.state.messages
+    let messagesElements = props.dialogsPage.messages
         .map(m => <Message message={m.message}/>);
 
     let newMessageElement = React.createRef();
 
     let addMessage = () => {
+        // вызываем функцию addMessage из мира BLL (файл state.js), которую прокинули через props
+        props.addMessage();
+    }
+    let onMessageChange = () => {
         let text = newMessageElement.current.value;
-        alert(text);
+        props.updateNewMessageText(text);
     }
 
     return (
@@ -26,7 +30,8 @@ const Dialogs = (props) => {
             <div className={s.messages}>
                 {messagesElements}
                 <div>
-                    <textarea ref={newMessageElement}></textarea>
+                    <textarea onChange={onMessageChange} ref={newMessageElement}
+                              value={props.newMessageText} />
                 </div>
                 <div>
                     <button onClick={ addMessage }>Add message</button>

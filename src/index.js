@@ -1,10 +1,28 @@
 import React from 'react';
 import './index.css';
+import state, {subscribe} from "./redux/state";
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {rerenderEntireTree} from "./render";
-import state from "./redux/state";
+import {addMessage, addPost, updateNewMessageText, updateNewPostText} from "./redux/state";
+import {BrowserRouter} from "react-router-dom";
+
+// Оборачиваем в функцию рендеринг, чтобы делать его при каждом чихе в state
+let rerenderEntireTree = (state) => {
+    ReactDOM.render(
+        <BrowserRouter>
+            <React.StrictMode>
+                <App state={state} addPost={addPost} updateNewPostText={updateNewPostText}
+                     addMessage={addMessage} updateNewMessageText={updateNewMessageText}/>
+            </React.StrictMode>,
+        </BrowserRouter>, document.getElementById('root')
+    );
+}
 
 rerenderEntireTree(state);
+// callback, отдаем кому-то функцию, чтобы кто-то ее вызвал
+subscribe(rerenderEntireTree);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
