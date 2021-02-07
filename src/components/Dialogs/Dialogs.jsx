@@ -14,11 +14,12 @@ const Dialogs = (props) => {
 
     let addMessage = () => {
         // вызываем функцию addMessage из мира BLL (файл state.js), которую прокинули через props
-        props.addMessage();
+        props.dispatch({ type: 'ADD-MESSAGE' });
     }
     let onMessageChange = () => {
         let text = newMessageElement.current.value;
-        props.updateNewMessageText(text);
+        let action = { type: 'UPDATE-NEW-POST-TEXT', newText: text };
+        props.dispatch(action);
     }
 
     return (

@@ -9,11 +9,11 @@ import {BrowserRouter} from "react-router-dom";
 
 // Оборачиваем в функцию рендеринг, чтобы делать его при каждом чихе в state
 let rerenderEntireTree = (state) => {
+    // ReactDOM рендерит JSX, превращая его в DOM
     ReactDOM.render(
         <BrowserRouter>
             <React.StrictMode>
-                <App state={store.getState()} addPost={store.addPost.bind(store)} updateNewPostText={store.updateNewPostText.bind(store)}
-                     addMessage={store.addMessage.bind(store)} updateNewMessageText={store.updateNewMessageText.bind(store)}/>
+                <App state={store.getState()} dispatch={store.dispatch.bind(store)}/>
             </React.StrictMode>,
         </BrowserRouter>, document.getElementById('root')
     );

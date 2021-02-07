@@ -32,46 +32,48 @@ let store = {
             ]
         }
     },
-    getState() {
-        return this._state;
-    },
     // метод, уведомляющий наблюдателя извне
     _callSubscriber() {
         console.log('State was changed');
     },
-    // функция, которая добавляет новый пост в массив постов
-    addPost() {
-        let newPost = {
-            id: 3,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        };
-        // push - метод массива, который добавляет в конец массива новый элемент
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.newPostText = '';
-        this._callSubscriber(this._state);
-    },
-    updateNewPostText(newText) {
-        this._state.profilePage.newPostText = newText;
-        this._callSubscriber(this._state);
-    },
-    addMessage() {
-        let newMessage = {
-            id: 5,
-            message: this._state.dialogsPage.newMessageText,
-        };
-        // push - метод массива, который добавляет в конец массива новый элемент
-        this._state.dialogsPage.messages.push(newMessage);
-        this._state.dialogsPage.newMessageText = '';
-        this._callSubscriber(this._state);
-    },
-    updateNewMessageText(newText) {
-        this._state.dialogsPage.newMessageText = newText;
-        this._callSubscriber(this._state);
+    
+    getState() {
+        return this._state;
     },
     // вызываем функцию, экспортируем. Затем ее вызывает импортер и передет внутрь какую-то функцию
     subscribe(observer) {
         this._callSubscriber = observer; // наблюдатель, паттерн (похож на publisher-subscriber, по этому же принципу button.addEventListener, onChange тоже)
+    },
+
+    // один метод, вместо всех. action - объект, который описывает какой действие совершить.
+    // Д.б. свойство type: 'ADD-POST'
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            let newPost = {
+                id: 3,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            };
+            // push - метод массива, который добавляет в конец массива новый элемент
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = '';
+            this._callSubscriber(this._state);
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText;
+            this._callSubscriber(this._state);
+        } else if (action.type === 'ADD-MESSAGE') {
+            let newMessage = {
+                id: 5,
+                message: this._state.dialogsPage.newMessageText,
+            };
+            // push - метод массива, который добавляет в конец массива новый элемент
+            this._state.dialogsPage.messages.push(newMessage);
+            this._state.dialogsPage.newMessageText = '';
+            this._callSubscriber(this._state);
+        } else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
+            this._state.dialogsPage.newMessageText = action.newText;
+            this._callSubscriber(this._state);
+        }
     }
 }
 
