@@ -2,6 +2,7 @@ import React from 'react';
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
+import {addMessageActionCreator, updateNewMessageTextActionCreator} from "../../redux/state";
 
 const Dialogs = (props) => {
 
@@ -14,11 +15,11 @@ const Dialogs = (props) => {
 
     let addMessage = () => {
         // вызываем функцию addMessage из мира BLL (файл state.js), которую прокинули через props
-        props.dispatch({ type: 'ADD-MESSAGE' });
+        props.dispatch(addMessageActionCreator());
     }
     let onMessageChange = () => {
         let text = newMessageElement.current.value;
-        let action = { type: 'UPDATE-NEW-POST-TEXT', newText: text };
+        let action = updateNewMessageTextActionCreator(text);
         props.dispatch(action);
     }
 
