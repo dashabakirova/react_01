@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
-import {addMessageActionCreator, updateNewMessageTextActionCreator} from "../../redux/state";
+import {sendMessageActionCreator, updateNewMessageBodyActionCreator} from "../../redux/DialogsReducer";
 
 const Dialogs = (props) => {
 
@@ -15,11 +15,12 @@ const Dialogs = (props) => {
 
     let addMessage = () => {
         // вызываем функцию addMessage из мира BLL (файл state.js), которую прокинули через props
-        props.dispatch(addMessageActionCreator());
+        props.dispatch(sendMessageActionCreator());
     }
-    let onMessageChange = () => {
-        let text = newMessageElement.current.value;
-        let action = updateNewMessageTextActionCreator(text);
+    let onMessageChange = (e) => {
+        let body = e.target.value;
+        // let text = newMessageElement.current.value;
+        let action = updateNewMessageBodyActionCreator(body);
         props.dispatch(action);
     }
 
@@ -30,9 +31,9 @@ const Dialogs = (props) => {
                 {/*<DialogItem name={dialogsData[0].name} id={dialogsData[0].id}/>*/}
             </div>
             <div className={s.messages}>
-                {messagesElements}
+                <div> { messagesElements } </div>
                 <div>
-                    <textarea onChange={onMessageChange} ref={newMessageElement}
+                    <textarea placeholder='Enter your message' onChange={ onMessageChange }
                               value={props.newMessageText} />
                 </div>
                 <div>
