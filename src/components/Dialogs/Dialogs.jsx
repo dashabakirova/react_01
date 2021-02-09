@@ -14,7 +14,7 @@ const Dialogs = (props) => {
     let newMessageElement = React.createRef();
 
     let addMessage = () => {
-        // вызываем функцию addMessage из мира BLL (файл state.js), которую прокинули через props
+        // вызываем функцию addMessage из мира BLL (файл store.js), которую прокинули через props
         props.dispatch(sendMessageActionCreator());
     }
     let onMessageChange = (e) => {
