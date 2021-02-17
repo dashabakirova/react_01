@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
+import {Provider} from "./storeContext";
 
 // Оборачиваем в функцию рендеринг, чтобы делать его при каждом чихе в state
 let rerenderEntireTree = (state) => {
@@ -13,7 +14,9 @@ let rerenderEntireTree = (state) => {
     ReactDOM.render(
         <BrowserRouter>
             <React.StrictMode>
-                <App state={state} store={store} />
+                <Provider store={store}>
+                    <App />
+                </Provider>
             </React.StrictMode>,
         </BrowserRouter>, document.getElementById('root')
     );
