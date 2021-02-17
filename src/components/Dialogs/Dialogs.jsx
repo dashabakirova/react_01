@@ -6,22 +6,20 @@ import {sendMessageActionCreator, updateNewMessageBodyActionCreator} from "../..
 
 const Dialogs = (props) => {
 
-    let dialogsElements = props.dialogsPage.dialogs
+    let dialogsElements = props.dialogs
         .map(d => <DialogItem name={d.name} id={d.id}/>);
-    let messagesElements = props.dialogsPage.messages
+    let messagesElements = props.messages
         .map(m => <Message message={m.message}/>);
 
     let newMessageElement = React.createRef();
 
     let addMessage = () => {
         // вызываем функцию addMessage из мира BLL (файл store.js), которую прокинули через props
-        props.dispatch(sendMessageActionCreator());
+        props.addMessage();
     }
     let onMessageChange = (e) => {
         let body = e.target.value;
-        // let text = newMessageElement.current.value;
-        let action = updateNewMessageBodyActionCreator(body);
-        props.dispatch(action);
+        props.updateNewMessageText(body);
     }
 
     return (
